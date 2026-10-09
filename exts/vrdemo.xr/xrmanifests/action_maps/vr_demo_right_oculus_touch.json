@@ -1,0 +1,40 @@
+{
+    "version": 1,
+    "priority": 35,
+    "name": "VR Demo Oculus (Right)",
+    "toolsLayout": "vr",
+    "dominantHand": "right",
+    "tags": [
+        {
+            "inputDevice": "/user/hand/left",
+            "tag": "left_oculus_touch_components"
+        },
+        {
+            "inputDevice": "/user/hand/right",
+            "tag": "right_oculus_touch_components"
+        }
+    ],
+    "tools": [
+        "teleport",
+        "move",
+        "select",
+        "navigation",
+        "menu"
+    ],
+    "actions": {
+        "xr_right_teleport_forward": "/user/hand/right/dpad_up",
+        "xr_right_teleport_backward": "/user/hand/right/dpad_down",
+        "xr_navigation_rotate_left": "/user/hand/right/dpad_left",
+        "xr_navigation_rotate_right": "/user/hand/right/dpad_right",
+        "xr_menu": "/user/hand/right/b",
+        "xr_navigation_fly": "/user/hand/left/thumbstick",
+
+        "xr_right_toggle_beam": "/user/hand/right/a",
+        "xr_left_toggle_beam": "/user/hand/left/x",
+
+        "xr_right_select_beam": "/user/hand/right/trigger",
+        "xr_left_select_beam": "/user/hand/left/trigger",
+        "xr_right_select_move": "/user/hand/right/thumbstick",
+        "xr_left_select_move": "/user/hand/left/thumbstick"
+    }
+}

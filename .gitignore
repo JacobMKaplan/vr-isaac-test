@@ -218,3 +218,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# vr-isaac-test: CloudXR environment (recreated by ./setup.sh) and runtime logs
+.venv-cloudxr/
+logs/

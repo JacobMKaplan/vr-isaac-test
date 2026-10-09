@@ -1,0 +1,14 @@
+[package]
+version = "1.0.0"
+title = "VR Demo XR action maps"
+description = "Quest (Oculus Touch) action map without Kit's built-in grab, so the grip button is free for physics grabbing in run-demo.sh scenes."
+category = "xr"
+keywords = ["xr", "vr", "demo"]
+
+[dependencies]
+"omni.kit.xr.core" = {}
+
+[settings]
+# Kit scans every registered manifest folder for action maps; ours has a higher
+# priority (35) than the stock "VR Oculus (Right)" map (30), so it wins for Quest controllers.
+xr.manifests."vrdemo.xr" = "xrmanifests"

@@ -1,0 +1,45 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+# Quest 3 VR demo scene: NVIDIA's Simple Room with a Franka Panda arm.
+# Assets stream from the Isaac Sim 6.1 asset server (needs internet on the laptop).
+
+def Xform "World"
+{
+    def Xform "SimpleRoom" (
+        prepend references = @https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Environments/Simple_Room/simple_room.usd@
+    )
+    {
+    }
+
+    def Xform "Franka" (
+        prepend references = @https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Robots/FrankaRobotics/FrankaPanda/franka.usd@
+    )
+    {
+        # Table top is at z = 0.01 (table centred on the origin, 3.2 m x 1.6 m)
+        double3 xformOp:translate = (0, 0, 0.01)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+    }
+
+    # VR start pose: 2.3 m in front of the table, eye height (~1.6 m above the floor at z = -0.77),
+    # facing +X toward the robot. With XR anchor mode "active camera", Isaac Sim drops this to
+    # the floor and re-applies the wearer's real head height.
+    def Camera "VRStart"
+    {
+        float focalLength = 18
+        float2 clippingRange = (0.01, 10000)
+        double3 xformOp:translate = (-2.3, 0, 0.83)
+        float3 xformOp:rotateXYZ = (90, 0, -90)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ"]
+    }
+
+    def PhysicsScene "PhysicsScene"
+    {
+        vector3f physics:gravityDirection = (0, 0, -1)
+        float physics:gravityMagnitude = 9.81
+    }
+}

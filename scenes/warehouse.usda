@@ -1,0 +1,185 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    metersPerUnit = 1
+    upAxis = "Z"
+    startTimeCode = 0
+    endTimeCode = 1000000
+    timeCodesPerSecond = 60
+)
+
+# Warehouse with a looping Franka arm and grabbable physics boxes.
+# Isaac Sim simple warehouse, a Franka on a pedestal running a looped motion, and a workbench of
+# rigid-body boxes you can grab (grip) and throw. Behaviour lives in warehouse.py.
+# Layout sits in the clear 4 m aisle through the warehouse centre (y in [-2, 2], floor at z = 0).
+# Positions: you start at (-2, 0) facing +X, bench ahead-left, robot ahead-right.
+
+def Xform "World"
+{
+    def Xform "Warehouse" (
+        prepend references = @https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Environments/Simple_Warehouse/warehouse.usd@
+    )
+    {
+    }
+
+    # Invisible floor collider so thrown boxes never fall through gaps in the warehouse floor meshes
+    def Cube "GroundCollider" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        token visibility = "invisible"
+        double3 xformOp:translate = (0, 0, -0.05)
+        float3 xformOp:scale = (60, 60, 0.1)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+
+    def Cube "Workbench" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        color3f[] primvars:displayColor = [(0.35, 0.27, 0.2)]
+        double3 xformOp:translate = (-0.5, 0.8, 0.375)
+        float3 xformOp:scale = (1.0, 0.7, 0.75)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+
+    def Cube "Pedestal" (
+        prepend apiSchemas = ["PhysicsCollisionAPI"]
+    )
+    {
+        double size = 1
+        color3f[] primvars:displayColor = [(0.2, 0.2, 0.22)]
+        double3 xformOp:translate = (0.6, -0.6, 0.375)
+        float3 xformOp:scale = (0.4, 0.4, 0.75)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:scale"]
+    }
+
+    # Franka on the pedestal, turned to face you. Its reach (~0.85 m) never touches the workbench.
+    def Xform "Robot" (
+        prepend references = @https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/Robots/FrankaRobotics/FrankaPanda/franka.usd@
+    )
+    {
+        double3 xformOp:translate = (0.6, -0.6, 0.75)
+        float3 xformOp:rotateXYZ = (0, 0, 180)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ"]
+    }
+
+    def Xform "Boxes"
+    {
+        def Cube "Box_0" (
+            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsCollisionAPI", "PhysicsMassAPI"]
+        )
+        {
+            double size = 0.16
+            color3f[] primvars:displayColor = [(0.85, 0.25, 0.2)]
+            float physics:mass = 0.89
+            vector3f physics:velocity = (0, 0, 0)
+            vector3f physics:angularVelocity = (0, 0, 0)
+            double3 xformOp:translate = (-0.86, 0.62, 0.832)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+        def Cube "Box_1" (
+            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsCollisionAPI", "PhysicsMassAPI"]
+        )
+        {
+            double size = 0.12
+            color3f[] primvars:displayColor = [(0.95, 0.6, 0.15)]
+            float physics:mass = 0.73
+            vector3f physics:velocity = (0, 0, 0)
+            vector3f physics:angularVelocity = (0, 0, 0)
+            double3 xformOp:translate = (-0.62, 0.62, 0.812)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+        def Cube "Box_2" (
+            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsCollisionAPI", "PhysicsMassAPI"]
+        )
+        {
+            double size = 0.18
+            color3f[] primvars:displayColor = [(0.95, 0.85, 0.2)]
+            float physics:mass = 0.97
+            vector3f physics:velocity = (0, 0, 0)
+            vector3f physics:angularVelocity = (0, 0, 0)
+            double3 xformOp:translate = (-0.38, 0.62, 0.842)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+        def Cube "Box_3" (
+            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsCollisionAPI", "PhysicsMassAPI"]
+        )
+        {
+            double size = 0.14
+            color3f[] primvars:displayColor = [(0.3, 0.75, 0.35)]
+            float physics:mass = 0.81
+            vector3f physics:velocity = (0, 0, 0)
+            vector3f physics:angularVelocity = (0, 0, 0)
+            double3 xformOp:translate = (-0.14, 0.62, 0.822)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+        def Cube "Box_4" (
+            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsCollisionAPI", "PhysicsMassAPI"]
+        )
+        {
+            double size = 0.15
+            color3f[] primvars:displayColor = [(0.2, 0.55, 0.9)]
+            float physics:mass = 0.85
+            vector3f physics:velocity = (0, 0, 0)
+            vector3f physics:angularVelocity = (0, 0, 0)
+            double3 xformOp:translate = (-0.86, 0.98, 0.827)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+        def Cube "Box_5" (
+            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsCollisionAPI", "PhysicsMassAPI"]
+        )
+        {
+            double size = 0.12
+            color3f[] primvars:displayColor = [(0.55, 0.35, 0.85)]
+            float physics:mass = 0.73
+            vector3f physics:velocity = (0, 0, 0)
+            vector3f physics:angularVelocity = (0, 0, 0)
+            double3 xformOp:translate = (-0.62, 0.98, 0.812)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+        def Cube "Box_6" (
+            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsCollisionAPI", "PhysicsMassAPI"]
+        )
+        {
+            double size = 0.2
+            color3f[] primvars:displayColor = [(0.9, 0.4, 0.65)]
+            float physics:mass = 1.05
+            vector3f physics:velocity = (0, 0, 0)
+            vector3f physics:angularVelocity = (0, 0, 0)
+            double3 xformOp:translate = (-0.38, 0.98, 0.852)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+        def Cube "Box_7" (
+            prepend apiSchemas = ["PhysicsRigidBodyAPI", "PhysicsCollisionAPI", "PhysicsMassAPI"]
+        )
+        {
+            double size = 0.14
+            color3f[] primvars:displayColor = [(0.6, 0.6, 0.6)]
+            float physics:mass = 0.81
+            vector3f physics:velocity = (0, 0, 0)
+            vector3f physics:angularVelocity = (0, 0, 0)
+            double3 xformOp:translate = (-0.14, 0.98, 0.822)
+            uniform token[] xformOpOrder = ["xformOp:translate"]
+        }
+    }
+
+    # VR start pose: eye height, facing +X down the aisle. XR "active camera" anchoring drops it to
+    # the floor and re-applies the wearer's real head height.
+    def Camera "VRStart"
+    {
+        float focalLength = 18
+        float2 clippingRange = (0.01, 10000)
+        double3 xformOp:translate = (-2, 0, 1.6)
+        float3 xformOp:rotateXYZ = (90, 0, -90)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateXYZ"]
+    }
+
+    def PhysicsScene "PhysicsScene"
+    {
+        vector3f physics:gravityDirection = (0, 0, -1)
+        float physics:gravityMagnitude = 9.81
+    }
+}
